@@ -7,3 +7,4 @@ Chasm of the Endless is a punishing action-roguelike. Plunge into an ever-changi
 
 ### Plugins & Tools
 - "2D Pixel Unit Maker - SPUM" by soonsoon https://assetstore.unity.com/packages/2d/characters/2d-pixel-unit-maker-spum-188715
+- "Kartograph Free" by Juan Rodriguez https://assetstore.unity.com/packages/tools/behavior-ai/kartograph-free-136626
