@@ -11,3 +11,4 @@ Chasm of the Endless is a punishing action-roguelike. Plunge into an ever-changi
 - "Rogue Fantasy Castle" by Szadi Art https://assetstore.unity.com/packages/2d/environments/rogue-fantasy-castle-164725
 - "RPG Worlds Caves" by Szadi Art https://assetstore.unity.com/packages/2d/environments/rpg-worlds-caves-167274
 - "Smart Lighting 2D" by FunkyCode https://assetstore.unity.com/packages/tools/particles-effects/smart-lighting-2d-112535
+- "Pixel Art Lantern Pack - Animated" by Karsiori https://assetstore.unity.com/packages/2d/environments/pixel-art-lantern-pack-animated-279944
