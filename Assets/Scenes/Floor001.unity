@@ -266,7 +266,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1724015786}
   - component: {fileID: 1724015785}
-  - component: {fileID: 1724015787}
   m_Layer: 0
   m_Name: Dungeon
   m_TagString: Untagged
@@ -291,7 +290,7 @@ MonoBehaviour:
   seed: 0
   sectionContainer: {fileID: 1724015786}
   maxLevelSize: 1000
-  maxAllowedOrder: 12
+  maxAllowedOrder: 6
   sectionPrefabs:
   - {fileID: 8414928679179626909, guid: a08086ca75a013046b0432ed3d8bffbe, type: 3}
   - {fileID: 5949452975709205367, guid: 1daeb959221b84049b2f2364e43155d3, type: 3}
@@ -316,31 +315,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1724015787
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1724015784}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c86500158029164449f3ca1742889940, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  roomSize: {x: 10, y: 8}
-  wallThickness: 0.2
-  floorPrefab: {fileID: 215900537731088214, guid: 1dd68afd7ccbbfb4f864d804826ef099, type: 3}
-  wallPrefab: {fileID: 1324978461799146244, guid: c8fbad2f8e324f9439dfb248f3095440, type: 3}
-  addColliders: 0
-  isTrigger: 0
-  generatedRoom: {fileID: 0}
-  floorObject: {fileID: 0}
-  wallObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

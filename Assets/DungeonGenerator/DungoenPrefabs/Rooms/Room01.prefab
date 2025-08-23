@@ -371,6 +371,7 @@ GameObject:
   - component: {fileID: 6507458327661556216}
   - component: {fileID: 5949452975709205367}
   - component: {fileID: 6406160543413230646}
+  - component: {fileID: 1443172062646062217}
   m_Layer: 0
   m_Name: Room01
   m_TagString: Untagged
@@ -430,10 +431,56 @@ MonoBehaviour:
   - {fileID: 2307262000460456262, guid: 1ad3193ae6bcaad499a974c8f6ef21ab, type: 3}
   - {fileID: 836434937250546585, guid: a9efcc0ab21b8324e8e89274b2f4dbeb, type: 3}
   numberOfItemsToSpawn: 5
-  spawnArea: {fileID: 6361641799379987507}
-  minDistanceBetweenItems: 2
-  randomRotation: 1
+  spawnArea: {fileID: 1443172062646062217}
+  minDistanceBetweenItems: 1
+  randomRotation: 0
   maxPlacementAttempts: 30
+--- !u!61 &1443172062646062217
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7554790132943370408}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 8.030706, y: 0.20441794}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 14.257965, y: 9.819176}
+  m_EdgeRadius: 0
 --- !u!1 &7657332714501335799
 GameObject:
   m_ObjectHideFlags: 0
