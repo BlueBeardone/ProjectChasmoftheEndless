@@ -1,30 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
+using UnityEngine.UI;
 
 public class CharacterCreationManager : MonoBehaviour
 {
     public CharacterData characterData = new CharacterData();
     
     [Header("UI References")]
-    public InputField nameInput;
-    public Dropdown lineageDropdown;
-    public Dropdown callingDropdown;
-    public Dropdown backgroundDropdown;
+    public TMP_InputField nameInput;
+    public TMP_Dropdown lineageDropdown;
+    public TMP_Dropdown callingDropdown;
+    public TMP_Dropdown backgroundDropdown;
     
-    public Text strengthText;
-    public Text dexterityText;
-    public Text constitutionText;
-    public Text intelligenceText;
-    public Text wisdomText;
-    public Text charismaText;
+    public TMP_Text strengthText;
+    public TMP_Text dexterityText;
+    public TMP_Text constitutionText;
+    public TMP_Text intelligenceText;
+    public TMP_Text wisdomText;
+    public TMP_Text charismaText;
     
-    public Text availablePointsText;
+    public TMP_Text availablePointsText;
+    
+    [Header("Appearance UI References")]
+    public TMP_Text skinToneText;
+    public TMP_Text hairStyleText;
+    public TMP_Text hairColorText;
+    public TMP_Text eyeColorText;
+    public TMP_Text facialFeatureText;
+    public TMP_Text clothingColorText;
     
     public Image characterPreview;
-    public Sprite[] lineageSprites; // Sprites for different lineages
+    public Image[] appearanceLayers; // Layers for different appearance parts
+    
+    [Header("Appearance Options")]
+    public Sprite[] skinTones;
+    public Sprite[] hairStyles;
+    public Sprite[] hairColors;
+    public Sprite[] eyeColors;
+    public Sprite[] facialFeatures;
+    public Sprite[] clothingColors;
     
     [Header("Attribute Points")]
     public int availablePoints = 27; // Standard point-buy system
@@ -35,6 +52,7 @@ public class CharacterCreationManager : MonoBehaviour
         InitializeUI();
         UpdateCharacterPreview();
         UpdateAttributeDisplays();
+        UpdateAppearanceDisplays();
     }
     
     void InitializeUI()
@@ -49,9 +67,17 @@ public class CharacterCreationManager : MonoBehaviour
         lineageDropdown.onValueChanged.AddListener(OnLineageChanged);
         callingDropdown.onValueChanged.AddListener(OnCallingChanged);
         backgroundDropdown.onValueChanged.AddListener(OnBackgroundChanged);
+        
+        // Initialize attributes to base values
+        characterData.strength = baseAttributes[0];
+        characterData.dexterity = baseAttributes[1];
+        characterData.constitution = baseAttributes[2];
+        characterData.intelligence = baseAttributes[3];
+        characterData.wisdom = baseAttributes[4];
+        characterData.charisma = baseAttributes[5];
     }
     
-    void PopulateDropdownFromEnum(Dropdown dropdown, System.Type enumType)
+    void PopulateDropdownFromEnum(TMP_Dropdown dropdown, System.Type enumType)
     {
         dropdown.ClearOptions();
         List<string> options = new List<string>();
@@ -73,54 +99,14 @@ public class CharacterCreationManager : MonoBehaviour
     {
         characterData.selectedLineage = (CharacterData.Lineage)index;
         UpdateCharacterPreview();
-        
-        // Apply lineage bonuses (example)
-        switch (characterData.selectedLineage)
-        {
-            case CharacterData.Lineage.Human:
-                // Humans get +1 to all stats
-                break;
-            case CharacterData.Lineage.Elf:
-                // Elves get +2 Dexterity
-                break;
-            case CharacterData.Lineage.Dwarf:
-                // Dwarves get +2 Constitution
-                break;
-            case CharacterData.Lineage.Orc:
-                // Orcs get +2 Strength
-                break;
-        }
-        
         UpdateAttributeDisplays();
     }
     
     public void OnCallingChanged(int index)
     {
         characterData.selectedCalling = (CharacterData.Calling)index;
-        
-        // Apply calling starting bonuses (example)
-        switch (characterData.selectedCalling)
-        {
-            case CharacterData.Calling.Fighter:
-                characterData.strength = 15;
-                characterData.dexterity = 12;
-                characterData.constitution = 14;
-                characterData.intelligence = 8;
-                characterData.wisdom = 10;
-                characterData.charisma = 8;
-                break;
-            case CharacterData.Calling.Rogue:
-                characterData.strength = 8;
-                characterData.dexterity = 15;
-                characterData.constitution = 12;
-                characterData.intelligence = 10;
-                characterData.wisdom = 8;
-                characterData.charisma = 14;
-                break;
-            // Add other classes...
-        }
-        
-        UpdateAttributeDisplays();
+        UpdateCharacterPreview();
+        // No longer setting default attributes for callings
     }
     
     public void OnBackgroundChanged(int index)
@@ -130,9 +116,27 @@ public class CharacterCreationManager : MonoBehaviour
     
     void UpdateCharacterPreview()
     {
-        if (lineageSprites.Length > (int)characterData.selectedLineage)
+        // Update the character preview based on all appearance options
+        if (appearanceLayers.Length >= 6)
         {
-            characterPreview.sprite = lineageSprites[(int)characterData.selectedLineage];
+            // Set each layer of the character appearance
+            if (skinTones.Length > characterData.skinToneIndex)
+                appearanceLayers[0].sprite = skinTones[characterData.skinToneIndex];
+            
+            if (hairStyles.Length > characterData.hairStyleIndex)
+                appearanceLayers[1].sprite = hairStyles[characterData.hairStyleIndex];
+            
+            if (hairColors.Length > characterData.hairColorIndex)
+                appearanceLayers[2].sprite = hairColors[characterData.hairColorIndex];
+            
+            if (eyeColors.Length > characterData.eyeColorIndex)
+                appearanceLayers[3].sprite = eyeColors[characterData.eyeColorIndex];
+            
+            if (facialFeatures.Length > characterData.facialFeatureIndex)
+                appearanceLayers[4].sprite = facialFeatures[characterData.facialFeatureIndex];
+            
+            if (clothingColors.Length > characterData.clothingColorIndex)
+                appearanceLayers[5].sprite = clothingColors[characterData.clothingColorIndex];
         }
     }
     
@@ -146,6 +150,69 @@ public class CharacterCreationManager : MonoBehaviour
         charismaText.text = characterData.charisma.ToString();
         
         availablePointsText.text = $"Points Available: {availablePoints}";
+        
+        // Update button interactivity based on available points and min values
+        UpdateAttributeButtonStates();
+    }
+    
+    void UpdateAttributeButtonStates()
+    {
+        // This method would need to be implemented to enable/disable +/- buttons
+        // based on available points and minimum values
+        // You would need references to your button GameObjects
+    }
+    
+    void UpdateAppearanceDisplays()
+    {
+        skinToneText.text = $"Skin Tone: {characterData.skinToneIndex + 1}";
+        hairStyleText.text = $"Hair Style: {characterData.hairStyleIndex + 1}";
+        hairColorText.text = $"Hair Color: {characterData.hairColorIndex + 1}";
+        eyeColorText.text = $"Eye Color: {characterData.eyeColorIndex + 1}";
+        facialFeatureText.text = $"Feature: {characterData.facialFeatureIndex + 1}";
+        clothingColorText.text = $"Clothing: {characterData.clothingColorIndex + 1}";
+    }
+    
+    // Appearance adjustment methods
+    public void ChangeSkinTone(int direction)
+    {
+        characterData.skinToneIndex = (characterData.skinToneIndex + direction + skinTones.Length) % skinTones.Length;
+        UpdateCharacterPreview();
+        UpdateAppearanceDisplays();
+    }
+    
+    public void ChangeHairStyle(int direction)
+    {
+        characterData.hairStyleIndex = (characterData.hairStyleIndex + direction + hairStyles.Length) % hairStyles.Length;
+        UpdateCharacterPreview();
+        UpdateAppearanceDisplays();
+    }
+    
+    public void ChangeHairColor(int direction)
+    {
+        characterData.hairColorIndex = (characterData.hairColorIndex + direction + hairColors.Length) % hairColors.Length;
+        UpdateCharacterPreview();
+        UpdateAppearanceDisplays();
+    }
+    
+    public void ChangeEyeColor(int direction)
+    {
+        characterData.eyeColorIndex = (characterData.eyeColorIndex + direction + eyeColors.Length) % eyeColors.Length;
+        UpdateCharacterPreview();
+        UpdateAppearanceDisplays();
+    }
+    
+    public void ChangeFacialFeature(int direction)
+    {
+        characterData.facialFeatureIndex = (characterData.facialFeatureIndex + direction + facialFeatures.Length) % facialFeatures.Length;
+        UpdateCharacterPreview();
+        UpdateAppearanceDisplays();
+    }
+    
+    public void ChangeClothingColor(int direction)
+    {
+        characterData.clothingColorIndex = (characterData.clothingColorIndex + direction + clothingColors.Length) % clothingColors.Length;
+        UpdateCharacterPreview();
+        UpdateAppearanceDisplays();
     }
     
     // Attribute adjustment methods
@@ -186,7 +253,7 @@ public class CharacterCreationManager : MonoBehaviour
         
         if (currentValue > baseAttributes[attributeIndex])
         {
-            int refund = GetAttributeCost(attributeIndex) - 1;
+            int refund = GetAttributeCost(attributeIndex - 1); // Cost for the previous value
             switch (attributeIndex)
             {
                 case 0: characterData.strength--; break;
@@ -223,6 +290,13 @@ public class CharacterCreationManager : MonoBehaviour
     
     public void FinalizeCharacter()
     {
+        // Validate that all points are spent (or allow unspent points)
+        if (availablePoints > 0)
+        {
+            // You might want to show a confirmation dialog here
+            Debug.Log($"You have {availablePoints} unspent points.");
+        }
+        
         // Save character data to persistent storage
         PlayerPrefs.SetString("CharacterName", characterData.characterName);
         PlayerPrefs.SetInt("CharacterLineage", (int)characterData.selectedLineage);
@@ -236,6 +310,9 @@ public class CharacterCreationManager : MonoBehaviour
         PlayerPrefs.SetInt("CharacterWIS", characterData.wisdom);
         PlayerPrefs.SetInt("CharacterCHA", characterData.charisma);
         
+        // Save appearance data
+        PlayerPrefs.SetString("CharacterAppearance", characterData.SerializeAppearance());
+        
         PlayerPrefs.Save();
         
         // Load the game scene
@@ -245,10 +322,16 @@ public class CharacterCreationManager : MonoBehaviour
     public void RandomizeCharacter()
     {
         // Randomize appearance
-        characterData.skinToneIndex = Random.Range(0, 5);
-        characterData.hairStyleIndex = Random.Range(0, 8);
-        characterData.hairColorIndex = Random.Range(0, 10);
-        characterData.eyeColorIndex = Random.Range(0, 6);
+        characterData.skinToneIndex = Random.Range(0, skinTones.Length);
+        characterData.hairStyleIndex = Random.Range(0, hairStyles.Length);
+        characterData.hairColorIndex = Random.Range(0, hairColors.Length);
+        characterData.eyeColorIndex = Random.Range(0, eyeColors.Length);
+        characterData.facialFeatureIndex = Random.Range(0, facialFeatures.Length);
+        characterData.clothingColorIndex = Random.Range(0, clothingColors.Length);
+        
+        // Update appearance displays
+        UpdateAppearanceDisplays();
+        UpdateCharacterPreview();
         
         // Randomize name from a list
         string[] names = { "Aelar", "Borin", "Cedric", "Diana", "Elena", "Fargrim", "Gwen", "Hector" };
@@ -268,5 +351,35 @@ public class CharacterCreationManager : MonoBehaviour
         int randomBackground = Random.Range(0, System.Enum.GetValues(typeof(CharacterData.Background)).Length);
         backgroundDropdown.value = randomBackground;
         OnBackgroundChanged(randomBackground);
+        
+        // Randomize attributes using point buy system
+        RandomizeAttributes();
+    }
+    
+    void RandomizeAttributes()
+    {
+        // Reset attributes to base values
+        characterData.strength = baseAttributes[0];
+        characterData.dexterity = baseAttributes[1];
+        characterData.constitution = baseAttributes[2];
+        characterData.intelligence = baseAttributes[3];
+        characterData.wisdom = baseAttributes[4];
+        characterData.charisma = baseAttributes[5];
+        
+        availablePoints = 27; // Reset points
+        
+        // Randomly distribute points
+        while (availablePoints > 0)
+        {
+            int attributeIndex = Random.Range(0, 6);
+            int cost = GetAttributeCost(attributeIndex);
+            
+            if (availablePoints >= cost)
+            {
+                IncreaseAttribute(attributeIndex);
+            }
+        }
+        
+        UpdateAttributeDisplays();
     }
 }

@@ -31,10 +31,30 @@ public class CharacterData
     public int hairStyleIndex = 0;
     public int hairColorIndex = 0;
     public int eyeColorIndex = 0;
+    public int facialFeatureIndex = 0;
+    public int clothingColorIndex = 0;
     
     // Derived properties
     public int MaxHealth => 10 + (constitution - 10) / 2;
     public int ArmorClass => 10 + (dexterity - 10) / 2;
     
-    // Skills and abilities would go here
+    // Serialize the appearance for easy saving
+    public string SerializeAppearance()
+    {
+        return $"{skinToneIndex},{hairStyleIndex},{hairColorIndex},{eyeColorIndex},{facialFeatureIndex},{clothingColorIndex}";
+    }
+    
+    public void DeserializeAppearance(string data)
+    {
+        string[] values = data.Split(',');
+        if (values.Length == 6)
+        {
+            skinToneIndex = int.Parse(values[0]);
+            hairStyleIndex = int.Parse(values[1]);
+            hairColorIndex = int.Parse(values[2]);
+            eyeColorIndex = int.Parse(values[3]);
+            facialFeatureIndex = int.Parse(values[4]);
+            clothingColorIndex = int.Parse(values[5]);
+        }
+    }
 }

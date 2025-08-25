@@ -27,13 +27,13 @@ public class CharacterLoader : MonoBehaviour
                 wisdom = PlayerPrefs.GetInt("CharacterWIS"),
                 charisma = PlayerPrefs.GetInt("CharacterCHA")
             };
-            
+
             // Instantiate the appropriate player prefab
             int prefabIndex = (int)characterData.selectedCalling; // Or combine lineage and calling
             if (prefabIndex < playerPrefabs.Length)
             {
                 GameObject player = Instantiate(playerPrefabs[prefabIndex], Vector3.zero, Quaternion.identity);
-                
+
                 // Apply character stats to player components
                 // PlayerController playerController = player.GetComponent<PlayerController>();
                 // if (playerController != null)
@@ -41,6 +41,11 @@ public class CharacterLoader : MonoBehaviour
                 //     playerController.characterData = characterData;
                 //     playerController.ApplyCharacterStats();
                 // }
+            }
+            
+            if (PlayerPrefs.HasKey("CharacterAppearance"))
+            {
+                characterData.DeserializeAppearance(PlayerPrefs.GetString("CharacterAppearance"));
             }
         }
         else
